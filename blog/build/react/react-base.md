@@ -128,6 +128,7 @@ In react a component is a javascript function that return jsx.
   - useEffect()
     * syntax: useEffect(function, dependencies?)
     * start and stop synchronizing something
+    * 发生在组件每一次渲染之后(componentDidMount,compoentDidUpdate,componentwillUnmount,dom真正更新之后)
     * the difference between different dependencies
       * without dependencies: rendered every time after component rendered
       * []: only execute once after component initial rendered
@@ -145,6 +146,11 @@ In react a component is a javascript function that return jsx.
     * store timeoutId
     * store DOMElement
     * store other objects that aren't neccessary to calculate jsx
-  
-
-
+### how to use
+  - only used in top level of components
+  - can not be used in ```if```、```for```、```function```
+    * 因为react是根据hook的调用顺序来确保每次的state和useState
+### what problems does react hooks want to resolve
+  - to resolve some complex problems like pass values
+  - to resolve the problem that it is difficult to retain components with components become more complex
+  - in order to pre-compiler component and class will influence performance optimization
