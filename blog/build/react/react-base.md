@@ -1,3 +1,4 @@
+# react基础知识
 ## react-base
 
 ### strict mode
@@ -66,7 +67,7 @@ In react a component is a javascript function that return jsx.
     * ```setNumber(value)``` and ```setNumber(updater function)```
     * updater function is used to update the same state multiple times before a render
 
-    ```
+    ```jsx
       const [number, setNumber] = useState(0);
       
       const handleBtnClick = () => {

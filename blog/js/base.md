@@ -7,4 +7,5 @@
   * map()
   * flat()
   * flatMap()
-  * Array.from()  
+  * Array.from() 
+   

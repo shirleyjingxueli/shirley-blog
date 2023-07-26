@@ -1,10 +1,11 @@
+# webpack原理
 ### webpack打包原理
   - 查找webpack入口
     * node_modules/.bin/webpack.js
   - webpack.js
     * 找到并运行对应的cli，调用```runCli(cli)```方法
     * runCli: 创建并执行cli，并传入命令行参数
-      ```
+      ```js
         // 调用 WebpackCli 创建 cli 实例
         const cli = new WebpackCli();
         // 调用cli.run()方法
@@ -30,7 +31,7 @@
 #### ** webpack-构建阶段 **
   - hooks.make: 从entry开始递归的 分析依赖，对每个 依赖模块进行build
     * 收集 entryData 并保存在 entries
-      ```
+      ```js
         // 默认entryData 
         entryData = {
           dependencies: [],
@@ -81,14 +82,14 @@
   - **es module** 
     * 加载方式：编译时确定模块之间的依赖关系，同步和异步都有
     * 运行环境： node，浏览器
-    ```
+    ```js
       import mport * as largeNumber from 'large-number';
       // ... largeNumber.add('999', '1'); 
     ```
   - **commonjs**
     * 加载方式：运行时加载，同步加载
     * 运行环境：nodejs
-    ```
+    ```js
       // 导出
       module.exports = {}
       // 导入

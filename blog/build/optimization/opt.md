@@ -1,3 +1,4 @@
+# 性能优化
 ### 性能衡量指标
   * 长任务：超过50ms的任务
   * TBT应该控制在300ms以内  
@@ -39,13 +40,13 @@
 #### 打包缓存
   - 文件名加hash
   - runtime 代码单独打包
-    ```
+    ```js
       {
         runtimeChunk: 'single',
       }
     ```
   - 第三方类库等进行```模块标识符```优化
-    ```
+    ```js
       optimization: {
         moduleIds: 'deterministic',  // 模块id摄者为deterministic
         runtimeChunk: 'single',

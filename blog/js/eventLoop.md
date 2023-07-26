@@ -1,3 +1,4 @@
+# 事件循环机制
 ## js中的EventLoop
 ### js中的任务
   js是单线程的，任务会被分为同步任务和异步任务
@@ -16,7 +17,10 @@
   ![Alt text](eventloop.png)
 ### 事件循环
   由于主线程读取的过程是不断重复的，所以叫做事件循环  
-
+### 微任务有哪些
+  promise, mutationObserver
+### 宏观任务有哪些
+  点击事件，setTimeout，setInterval，requestAnimationFrame等  
 ## node中的EventLoop
   - 概念：
     * 事件循环是node处理非阻塞I/O的机制

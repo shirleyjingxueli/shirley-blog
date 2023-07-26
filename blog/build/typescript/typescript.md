@@ -1,3 +1,4 @@
+# TypeScript原理知识
 ## TypeScript 原理
 ### ts编译流程
   ![Alt text](编译流程图.png)
