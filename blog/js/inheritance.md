@@ -1,4 +1,60 @@
-# 继承与原型链
+# js-继承与原型链
+## js中如何创建一个对象
+### 字面量
+```js
+  let person = {
+    name: 'shirley',
+    age: 18,
+    sayName: function(){
+      console.log(this.name)
+    }
+  }
+```
+### 使用Object构造函数
+```js
+  let person = new Object();
+  person.name = "shirley";
+  person.age = 18,
+  person.sayName = function(){
+    console.log(this.name)
+  }
+```
+### 工厂模式
+```js
+  // 工厂函数
+  function createPerson(name, age){
+    let person = new Object();
+    person.name = name;
+    person.age = age;
+    person.sayName = function(){
+      console.log(this.name)
+    }
+    return person
+  }
+  // 使用
+  const person1 = createPerson("shirley", 18);
+  const person2 = createPerson("mike", 26);
+```
+### 构造函数
+```js
+  // 构造函数
+  function Person(name,age){
+    this.name = name;
+    this.age = age;
+    this.sayName = function(){
+      console.log(this.name)
+    }
+  }
+  // 使用
+  const person1 = new Person("shirley", 18)
+  const person2 = new Person("mike", 26)
+```
+## 调用new操作符发生了什么
+  - (1) 在内存中创建一个新对象。
+  - (2) 这个新对象内部的[[Prototype]]特性被赋值为构造函数的 prototype 属性。
+  - (3) 构造函数内部的 this 被赋值为这个新对象（即 this 指向新对象）。
+  - (4) 执行构造函数内部的代码（给新对象添加属性）。
+  - (5) 如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象
 ## 原型链
 ### 原型链例子
 ![Alt text](OOP.png)

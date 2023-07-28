@@ -1,4 +1,4 @@
-# 跨域问题
+# js-跨域问题
 ## **跨域是什么**
   跨域是浏览器的一种安全策略,要求访问资源必须遵循协议相同，域名相同，端口相同, cookie, localstorage,indexDB,ajax请求都不允许跨域，script src, style的src是允许跨域的。
 
@@ -48,7 +48,7 @@
   这种情况，前端请求头还需要设置 withCredentials，服务端响应头还需要设置Access-Control-Allow-Credentials: true
 - 复杂请求：
 例子：比如服务端采用的是token机制，前端就需要将token放到请求头中，将content-type设置为application/json.
-### ngix反向代理（原理：服务器无跨域说法）
+### nginx反向代理（原理：服务器无跨域说法）
   反向代理指的是不管内部还是外部网络都能访问内部网络数据。
 
   反向代理：客户端 --- 代理服务器(和页面在同一个源) --- 源服务器；客户端直接访问代理服务器，代理服务器访问源服务器获取数据，并返回给客户端。

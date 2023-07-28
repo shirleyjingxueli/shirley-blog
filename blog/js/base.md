@@ -1,4 +1,4 @@
-# javascript知识总结
+# js-知识总结
 ## 数组
 ### 数组有哪些方法？
 ![Alt text](Array.png)
