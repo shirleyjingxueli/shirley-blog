@@ -142,7 +142,7 @@
 
 ### 构造函数继承
 
-  基本思路：盗用构造函数--在子类的构造函数中调用父类的构造函数。可以使用 call() 和 apply() 方法以新创建的对象为上下文执行构造函0数。
+  基本思路：盗用构造函数--在子类的构造函数中调用父类的构造函数。可以使用 call() 和 apply() 方法以新创建的对象为上下文执行构造函数。
 
   解决的问题： 
 
@@ -295,7 +295,12 @@
 
   缺点：通过寄生式继承给对象添加函数会导致函数难以重用，与构造函数模式类似。
 
-  寄生式组合继承的基本模式：
+### 寄生组合式继承（最成熟的方法，也是现在库实现的方法）
+  **寄生式组合继承通过盗用构造函数继承属性，但使用混合式原型链继承方法。**
+
+  **基本思路**：不通过调用父类构造函数给子类原型赋值，而是取得父类原型的一个副本。也就是使用寄生式继承来继承父类的原型，然后将返回的新对象赋值给子类原型。
+
+#### 寄生式组合继承的基本模式：
   - 创建父类原型的副本
   - 给返回的对象设置constructor属性，解决由于重写原型导致默认constructor丢失的问题
   - 将新创建的对象赋值给子类型的原型
@@ -343,16 +348,13 @@
   -  **这里只调用了一次SuperType构造函数，避免了SubType.prototype上不必要也用不到的属性，因此可以说这个例子更高效**
   -  **而且原型链仍然保持不变，因此instanceof操作符和isPrototypeOf()方法仍然正常有效**
 
-### 寄生组合式继承（最成熟的方法，也是现在库实现的方法）
-  **寄生式组合继承通过盗用构造函数继承属性，但使用混合式原型链继承方法。**
-
-  **基本思路**：不通过调用父类构造函数给子类原型赋值，而是取得父类原型的一个副本。也就是使用寄生式继承来继承父类的原型，然后将返回的新对象赋值给子类原型。
 ### es6的class继承
   由于es5中的各种继承都有自己的问题，并且也有相应的妥协。正应为如此，实现继承的代码也显得非常冗长和混乱。
   
   为了解决这些问题，es6中引入了class关键字来定义类的能力。
 
   类继承：
+
   1. 继承基础：**使用extends关键字就可以继承任何具有[[construct]]和原型的对象。这意味着不仅可以继承一个类，也可以继承一个普通的构造函数。**
 
   ```js
@@ -375,6 +377,7 @@
     console.log(person1 instanceof Enginner); // true;
   ```
   2. 构造函数、HomeObject和super
+
   **派生类的方法可以通过super关键字来引用他们的原型。这个关键字只能在派生类中使用，而且仅限于类构造函数，实例方法，类静态方法中使用**
   
   **ES6 给类构造函数和静态方法添加了内部特性[[HomeObject]]，这个特性是一个指针，指向定义该方法的对象。这个指针是自动赋值的，只能在 JavaScript 引擎内部访问。super 始终会定义为[[HomeObject]]的原型。**
@@ -417,24 +420,24 @@
   ```
   3. 抽象基类
 
-    当定义一个类供其他类继承，但是这个类并不会被实例化时，可以使用抽象基类。
+  当定义一个类供其他类继承，但是这个类并不会被实例化时，可以使用抽象基类。
 
-    - 虽然 ECMAScript 没有专门支持这种类的语法 ，但通过 new.target 也很容易实现。**new.target 保存通过 new 关键字调用的类或函数。通过在实例化时检测 new.target 是不是抽象基类，可以阻止对抽象基类的实例化**
+  - 虽然 ECMAScript 没有专门支持这种类的语法 ，但通过 new.target 也很容易实现。**new.target 保存通过 new 关键字调用的类或函数。通过在实例化时检测 new.target 是不是抽象基类，可以阻止对抽象基类的实例化**
 
-    ```js
-      class Vehicle {
-        constructor(){
-          if (new.target === Vehicle) {
-            throw new Error("Vehicle can not be directly instantiated")
-          }
+  ```js
+    class Vehicle {
+      constructor(){
+        if (new.target === Vehicle) {
+          throw new Error("Vehicle can not be directly instantiated")
         }
       }
+    }
 
-      class Bus extends Vehicle {};
+    class Bus extends Vehicle {};
 
-      new Bus();
-      new Vehicle(); // Vehicle can not be directly instantiated
-    ```
+    new Bus();
+    new Vehicle(); // Vehicle can not be directly instantiated
+  ```
   - 通过在抽象基类的构造函数中进行检查，可以要求派生类必须定义某个方法。因为原型方法在调用类构造函数之前就已经存在了，所以可以使用this关键字来检查相应的方法。
     ```js
       // 抽象基类
@@ -463,135 +466,136 @@
       new Vehicle(); // Vehicle can not be directly instantiated
     ```
   4. 继承内置类型
-    ES6 类为继承内置引用类型提供了顺畅的机制，开发者可以方便地扩展内置类型。
-    ```js
-      // 实现一个继承Array的类
-      class SuperArray extends Array { 
-        shuffle() { 
-          // 洗牌算法
-          for (let i = this.length - 1; i > 0; i--) { 
-            const j = Math.floor(Math.random() * (i + 1)); 
-            [this[i], this[j]] = [this[j], this[i]]; 
-          } 
+  ES6 类为继承内置引用类型提供了顺畅的机制，开发者可以方便地扩展内置类型。
+  ```js
+    // 实现一个继承Array的类
+    class SuperArray extends Array { 
+      shuffle() { 
+        // 洗牌算法
+        for (let i = this.length - 1; i > 0; i--) { 
+          const j = Math.floor(Math.random() * (i + 1)); 
+          [this[i], this[j]] = [this[j], this[i]]; 
         } 
       } 
+    } 
 
-      let a = new SuperArray(1, 2, 3, 4, 5); 
+    let a = new SuperArray(1, 2, 3, 4, 5); 
 
-      console.log(a instanceof Array); // true 
-      console.log(a instanceof SuperArray); // true 
-      console.log(a); // [1, 2, 3, 4, 5] 
-      a.shuffle(); 
-      console.log(a); // [3, 1, 4, 5, 2]
-    ```  
+    console.log(a instanceof Array); // true 
+    console.log(a instanceof SuperArray); // true 
+    console.log(a); // [1, 2, 3, 4, 5] 
+    a.shuffle(); 
+    console.log(a); // [3, 1, 4, 5, 2]
+  ```  
 
-    有些内置类型的方法会返回新实例。默认情况下，返回实例的类型与原始实例的类型是一致的：
-    ```js
-      class SuperArray extends Array {} 
+  有些内置类型的方法会返回新实例。默认情况下，返回实例的类型与原始实例的类型是一致的：
+  ```js
+    class SuperArray extends Array {} 
 
-      let a1 = new SuperArray(1, 2, 3, 4, 5); 
-      let a2 = a1.filter(x => !!(x%2)) 
+    let a1 = new SuperArray(1, 2, 3, 4, 5); 
+    let a2 = a1.filter(x => !!(x%2)) 
 
-      console.log(a1); // [1, 2, 3, 4, 5] 
-      console.log(a2); // [1, 3, 5] 
-      console.log(a1 instanceof SuperArray); // true 
-      console.log(a2 instanceof SuperArray); // true 
-    ```
+    console.log(a1); // [1, 2, 3, 4, 5] 
+    console.log(a2); // [1, 3, 5] 
+    console.log(a1 instanceof SuperArray); // true 
+    console.log(a2 instanceof SuperArray); // true 
+  ```
 
-    如果想覆盖这个默认行为，则可以覆盖 Symbol.species 访问器，这个访问器决定在创建返回的实例时使用的类：
-    ```js
-      class SuperArray extends Array { 
-        // 重点
-        static get [Symbol.species]() { 
-          return Array; 
-        } 
+  如果想覆盖这个默认行为，则可以覆盖 Symbol.species 访问器，这个访问器决定在创建返回的实例时使用的类：
+  ```js
+    class SuperArray extends Array { 
+      // 重点
+      static get [Symbol.species]() { 
+        return Array; 
       } 
+    } 
 
-      let a1 = new SuperArray(1, 2, 3, 4, 5); 
-      let a2 = a1.filter(x => !!(x%2)) 
+    let a1 = new SuperArray(1, 2, 3, 4, 5); 
+    let a2 = a1.filter(x => !!(x%2)) 
 
-      console.log(a1); // [1, 2, 3, 4, 5] 
-      console.log(a2); // [1, 3, 5] 
-      console.log(a1 instanceof SuperArray); // true 
-      console.log(a2 instanceof SuperArray); // false
-    ```
+    console.log(a1); // [1, 2, 3, 4, 5] 
+    console.log(a2); // [1, 3, 5] 
+    console.log(a1 instanceof SuperArray); // true 
+    console.log(a2 instanceof SuperArray); // false
+  ```
   5. 类混入
-    在javascript中，把多个类集中到一个类叫做类混入。虽然 ES6 没有显式支持多类继承，但通过现有特性可以轻松地模拟这种行为。
+  在javascript中，把多个类集中到一个类叫做类混入。虽然 ES6 没有显式支持多类继承，但通过现有特性可以轻松地模拟这种行为。
 
-    - 单个混入：
+  - 单个混入：
 
-    ```js
-      class Vehicle {} 
-      function getParentClass() { 
-        console.log('evaluated expression'); 
-        return Vehicle; 
+  ```js
+    class Vehicle {} 
+    function getParentClass() { 
+      console.log('evaluated expression'); 
+      return Vehicle; 
+    } 
+    class Bus extends getParentClass() {}
+  ```  
+
+  - 嵌套混入模式：
+
+  i. 一个策略是定义一组“可嵌套”的函数，每个函数分别接收一个超类作为参数，而将混入类定义为这个参数的子类，并返回这个类。这些组合函数可以连缀调用，最终组合成超类表达式：
+  ```js
+    class Vehicle {} 
+
+    let FooMixin = (Superclass) => class extends Superclass { 
+      foo() { 
+        console.log('foo'); 
       } 
-      class Bus extends getParentClass() {}
-    ```  
+    }; 
 
-    - 嵌套混入模式：
-      i. 一个策略是定义一组“可嵌套”的函数，每个函数分别接收一个超类作为参数，而将混入类定义为这个参数的子类，并返回这个类。这些组合函数可以连缀调用，最终组合成超类表达式：
-      ```js
-        class Vehicle {} 
+    let BarMixin = (Superclass) => class extends Superclass { 
+      bar() { 
+        console.log('bar'); 
+      } 
+    }; 
 
-        let FooMixin = (Superclass) => class extends Superclass { 
-          foo() { 
-            console.log('foo'); 
-          } 
-        }; 
+    let BazMixin = (Superclass) => class extends Superclass { 
+      baz() { 
+        console.log('baz'); 
+      } 
+    };
 
-        let BarMixin = (Superclass) => class extends Superclass { 
-          bar() { 
-            console.log('bar'); 
-          } 
-        }; 
+    class Bus extends FooMixin(BarMixin(BazMixin(Vehicle))) {} 
 
-        let BazMixin = (Superclass) => class extends Superclass { 
-          baz() { 
-            console.log('baz'); 
-          } 
-        };
+    let b = new Bus(); 
+    b.foo(); // foo 
+    b.bar(); // bar 
+    b.baz(); // baz
+  ```
+  ii. 定义一个辅助函数，可以把嵌套函数打开
+  ```js
+    class Vehicle {} 
 
-        class Bus extends FooMixin(BarMixin(BazMixin(Vehicle))) {} 
+    let FooMixin = (Superclass) => class extends Superclass { 
+      foo() { 
+        console.log('foo'); 
+      } 
+    }; 
 
-        let b = new Bus(); 
-        b.foo(); // foo 
-        b.bar(); // bar 
-        b.baz(); // baz
-      ```
-      ii. 定义一个辅助函数，可以把嵌套函数打开
-      ```js
-        class Vehicle {} 
+    let BarMixin = (Superclass) => class extends Superclass { 
+      bar() { 
+        console.log('bar'); 
+      } 
+    }; 
 
-        let FooMixin = (Superclass) => class extends Superclass { 
-          foo() { 
-            console.log('foo'); 
-          } 
-        }; 
+    let BazMixin = (Superclass) => class extends Superclass { 
+      baz() { 
+        console.log('baz'); 
+      } 
+    };
 
-        let BarMixin = (Superclass) => class extends Superclass { 
-          bar() { 
-            console.log('bar'); 
-          } 
-        }; 
+    function mix(BaseClass, ...Mixins) { 
+      return Mixins.reduce((accumulator, current) => current(accumulator), BaseClass); 
+    } 
 
-        let BazMixin = (Superclass) => class extends Superclass { 
-          baz() { 
-            console.log('baz'); 
-          } 
-        };
+    class Bus extends mix(Vehicle, FooMixin, BarMixin, BazMixin) {} 
 
-        function mix(BaseClass, ...Mixins) { 
-          return Mixins.reduce((accumulator, current) => current(accumulator), BaseClass); 
-        } 
-
-        class Bus extends mix(Vehicle, FooMixin, BarMixin, BazMixin) {} 
-
-        let b = new Bus(); 
-        b.foo(); // foo 
-        b.bar(); // bar 
-        b.baz(); // baz
-      ```
+    let b = new Bus(); 
+    b.foo(); // foo 
+    b.bar(); // bar 
+    b.baz(); // baz
+  ```
 #### 使用super时需要注意的问题
   - super只能在派生类构造函数和静态方法中使用
   - super关键字不能单独使用，使用它要么调用类的构造函数，要么调用类的静态方法
@@ -610,8 +614,7 @@
   作的结果之后还可以再进一步增强。
 
    与原型式继承紧密相关的是寄生式继承，即先基于一个对象创建一个新对象，然后再增强这个
-  新对象，最后返回新对象。这个模式也被用在组合继承中，用于避免重复调用父类构造函数导
-  致的浪费。
+  新对象，最后返回新对象。这个模式也被用在组合继承中，用于避免重复调用父类构造函数导致的浪费。
 
    寄生组合继承被认为是实现基于类型继承的最有效方式。
 
@@ -636,7 +639,7 @@
       const child = new Child();
       Child.__proto__ === Function.prototype
     ```
-   * es5-基于构造函数
+    * es5-基于构造函数
     ```js
       function Parent () {}
       function Child () {
@@ -645,7 +648,7 @@
       var child = new Child();
       Child.__proto__ === Function.prototype
     ``` 
-   * es6-基于super
+   * es6-基于extends和super
    ```js
     class Parent{}
     class Child extends Parent {
