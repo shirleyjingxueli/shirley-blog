@@ -159,7 +159,66 @@
   - 生成器函数内部的执行流程会针对每个生成器对象区分作用域。在一个生成器上调用next()并不会影响其他生成器。
   - yield 关键字只能在生成器内部使用，用在其他地方会抛出错误。
 
+### 生成器的使用
+#### 生成器对象作为可迭代对象
+```js
+  function* generatorFn(){
+    yield 1;
+    yield 2;
+    yield 3
+  }
 
+  for (const item of generatorFn()) {
+    console.log(item)
+  }
+  // 1 2 3
+```
+#### yield 实现 输入和输出
+```js
+  function* generatorFn() {
+    return yield "foo"
+  }
+
+  let generatorObj = generatorFn();
+
+  console.log(generatorObj.next()); //{done:false, value: foo};
+  console.log(generatorObj.next("bar")) // {done: true, value: "bar"}
+```
+#### 产生可迭代对象
+```js
+  // 等价的 generatorFn： 
+  // function* generatorFn() { 
+  // for (const x of [1, 2, 3]) { 
+  // yield x; 
+  // } 
+  // } 
+  function* generatorFn() { 
+  yield* [1, 2, 3]; 
+  } 
+  let generatorObject = generatorFn(); 
+  for (const x of generatorFn()) { 
+  console.log(x); 
+  } 
+  // 1 
+  // 2 
+  // 3
+  // yield*实际上只是将一个可迭代对象序列化为一连串可以单独产出的值，所以这跟把 yield放到一个循环里没什么不同。
+```
+#### 使用yield* 实现递归
+```js
+  function* nTimes(n) { 
+    if (n > 0) { 
+      yield* nTimes(n - 1); 
+      yield n - 1; 
+    } 
+    } 
+    for (const x of nTimes(3)) { 
+      console.log(x); 
+    } 
+    // 0 
+    // 1 
+    // 2
+```
 ## 小结
   迭代器是一个可以由任意对象实现的接口，支持连续获取对象产出的每一个值。任何实现 Iterable接口的对象都有一个 Symbol.iterator 属性，这个属性引用默认迭代器。默认迭代器就像一个迭代器工厂，也就是一个函数，调用之后会产生一个实现 Iterator 接口的对象。
 
