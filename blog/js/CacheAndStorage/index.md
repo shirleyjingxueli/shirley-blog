@@ -163,8 +163,13 @@
     //  因为所有名和值都是URL编码的，因此必须使用DecodeURIComponent() 解码
 
   ```
-#### HTTP-only
-  有一种叫做HTTP-only的cookie。HTTP-only 可以在浏览器设置，也可以在服务器设置，但只能在服务器上读取，因为js无法获取这种cookie的值。
+#### HttpOnly
+  有一种叫做HttpOnly的cookie。HttpOnly 可以在浏览器设置，也可以在服务器设置，但只能在服务器上读取，因为js无法获取这种cookie的值。
+
+  HttpOnly的cookie，无法通过```document.cookie```访问，它仅发送到服务器。
+  
+#### Secure
+  具有 secure 属性的 cookie 仅通过 HTTPS 协议通过加密请求发送到服务器。它永远不会使用不安全的 HTTP 发送（本地机器除外），这意味着中间攻击人无法轻松访问它
 
 ### Web Storage
   Web Storage 的目的是解决通过客户端存储不需要频繁发送回服务端的数据时使用cookie的问题。
