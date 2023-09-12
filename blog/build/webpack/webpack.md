@@ -3,10 +3,75 @@
   - webpack是一个基于js的静态模块打包工具。会根据一个或者多个入口点构建依赖图，将项目中所需的模块构建成一个或者多个bundles，它们均为静态资源，用于展示页面。
   - webpack本质：基于事件流的编程范例，一系列的插件运行
 
-### webpack、grunt、gulp、rollup、vite、parcel区别
-|     | webpack | rollup | vite | parcel | grunt | gulp |
-|:----| :----   | :----  | :----| :----  | :---- | :----| 
+### bundle，chunk， module 是什么？
+  - bundle: 由 webpack 打包出来的文件
+  - chunk: 代码块，一个 chunk 由多个模块组合而成，用于代码合并和分割。
+  - module: 开发中的单个模块，在 webpack 的世界，一切皆模块，一个模块对应一个文件， webpack 会从配置的 entry 中递归开始找出所有依赖的模块。
 
+### webpack、grunt、gulp、rollup、vite、parcel区别
+
+#### webpack 和 grunt、gulp 的不同？
+
+  - **Grunt、Gulp 是基于任务运行的工具**：
+
+  它们会自动执行指定的任务，像流水线，把资源放上去然后通过不同插件进行加工，它们包括活跃的社区，丰富的插件，能方便的打造各种工作流。
+
+  - **Webpack 是基于模块化打包的工具**：
+
+  自动化处理模块，Webpack 把一切都当成模块，当 Webpack 处理程序时，它会递归地构建一个依赖关系图，其中包含应用程序需要的每个模块，然后将这些模块打包成一个或者多个 bundle
+
+  **Webpack 和 Grunt、Gulp 是完全不同的两类工作，而现在主流的方式是用 npm script 代替 Grunt、Gulp, npm script 同样可以打造任务流。**  
+
+#### webpack、rollup、parcel 优劣？
+
+  - **webpack 适用于大型复杂的前端站点构建：** 
+
+    webpack 由强大的 loader 和 插件生态，打包后的文件实际上就是一个立即执行函数，这个立即执行函数接收一个参数，这个参数就是模块对象，键为各个模块的路径，值为模块的内容。立即执行函数内部则处理模块之间的引用，执行模块等，这种情况更适合文件依赖复杂的应用开发
+
+  - **rollup 适用于基础库的打包（如 vue、d3等）：**
+
+    rollup 就是将各个模块打包进一个文件中，并且通过 Tree-shaking 来删除无用的代码，可以最大程度上降低代码体积，但是 rullup 没有 webpack 如此多的功能， 如：代码分割，按需加载等高级功能，其更聚焦于库的打包，因此更适合库的开发。
+
+  - **parcel 适用于简单的实验性项目：**
+
+    它可以满足低门槛的快速看到效果，但是生态差、报错信息不够全面都是它的硬伤，除了一下玩具项目或者实验项目，其他不建议使用。
+
+#### vite
+  vite 是一种新型的前端构建工具，能够显著提升前端开发体验。
+  
+  **特点：**
+
+  - 极速的服务启动：
+
+    使用原生 ESM 文件，无需打包
+    
+    Vite 将会使用 esbuild 预构建依赖。
+
+    Vite 只需要在浏览器请求源码时进行转换并按需提供源码。根据情景动态导入代码，即只在当前屏幕上实际使用时才会被处理。
+
+  - 轻量快速的热重载
+
+    无论应用程序大小如何，都始终极快的模块热替换（HMR）
+
+    在 Vite 中，HMR 是在原生 ESM 上执行的。当编辑一个文件时，Vite 只需要精确地使已编辑的模块与其最近的 HMR 边界之间的链失活[1]（大多数时候只是模块本身），使得无论应用大小如何，HMR 始终能保持快速更新。
+
+    Vite 同时利用 HTTP 头来加速整个页面的重新加载（再次让浏览器为我们做更多事情）：源码模块的请求会根据 304 Not Modified 进行协商缓存，而依赖模块请求则会通过 Cache-Control: max-age=31536000,immutable 进行强缓存，因此一旦被缓存它们将不需要再次请求。
+
+  - 丰富的功能
+
+    对 TS, JSX, CSS 等支持开箱即用
+
+  - 优化的构建
+
+    可选 多页应用 或者 库 模式的预配置 rollup 构建
+
+  - 通用的插件
+
+    在开发和构建之间共享 rollup-superset 插件接口
+
+  - 完全类型化的API
+
+    灵活的 API 和 完整的 TS 类型。
 
 ### webpack 基础用法
   - **entry: 入口**
@@ -33,7 +98,7 @@
   - **loader: 用于对非js资源的解析，配置在module中**
     * 特点：
       1. loader 可以链式调用，最终的loader期待返回js
-      2. loader 有先后顺序
+      2. loader 有先后顺序。webpack中， loader 的执行顺序是从右向左执行的。 因为 webpack 选择了 compose 这样的函数式编程方式，这种方式的表达式执行是从右向左的。
     * 使用方法：
       ```js
         module: {
@@ -49,7 +114,7 @@
     * 常见的loader：
       - css: style-loader, css-loader
         1. style-loader: 将css注入到dom中
-        2. css-loader: 解析csc，加载.css，并转换为commonjs对象
+        2. css-loader: 解析css，加载.css，并转换为commonjs对象
         3. scss-loader: 解析scss
         4. less-loader: 解析 less
       - images | fonts: ```type: 'asset/resource'``` ---> 相当于是file-loader
@@ -61,6 +126,8 @@
       - ts: ts-loader  
       - 文件以字符串的形式插入: raw-loader
       - 多进程打包js和css: thread-loader
+      - 语法转换: babel-loader
+      - eslint 检查: eslint-loader
   - **plugins:**
     * 用于bundle文件的优化，资源管理，环境变量的注入，作用于整个构建过程中
     * 常见的plugin
@@ -71,6 +138,10 @@
       5. ExtractTextWebpackPlugin: 将css从bundle文件里提取为一个独立的css文件
       6. CopyWebpackPlugin: 将文件或者文件夹拷贝到构建的输出目录
       7. ZipWebpackPlugin: 将打包的资源生成一个zip包
+      8. DefinePlugin: 定义环境变量
+      9. WebpackParallelUglifyPlugin: 多核压缩，提高压缩速度
+      10. WebpackBundleAnalyzer: 可视化 webpack 输出文件体积
+      11. MiniCssExtraPlugin: CSS 提取到单独的文件中，支持按需加载
     * webpack插件本质
       1. webpack中的插件是一个具有apply方法的js对象，apply 方法会被 webpack compiler 调用，并且在整个编译生命周期里都可以访问compiler对象   
   - **mode：**
@@ -101,8 +172,15 @@
     * css: optimize-css-assets-webpack-plugin 同时使用cssnano
 ### 常见问题
   #### loader和plugin的区别
-  - loader用于资源解析
+  **功能不同：**
+
+  - loader用于资源解析，让 webpack 拥有了加载和解析非JS文件的能力。
   - plugin用于bundle优化，资源管理，环境变量的注入，作用于整个构建过程中
+
+  **用法不同**
+  
+  - loader 在 module.rules中配置，它是作为模块的解析规则而存在的。类型为数组，每一项都是一个 Object，里面描述了对什么类型的文件（test），使用什么加载（loader）和使用的参数（options）
+  - plugin 是在 plugins 中单独配置。类型为数组，每一项都是一个 plugin 的实例，参数都通过构造函数传入。
 
 ### webpack 进阶用法
 #### env

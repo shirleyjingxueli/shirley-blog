@@ -59,7 +59,18 @@
     * 生成模块统计数据：new Stats(compilation)
     * 写入完成：hooks.done
     * 将 stats 统计数据传入并执行最初调用 run() 方法时所传入的 callback。
- 
+
+### webpack 热更新原理
+  webpack的热更新又称为热替换，缩写为 HMR。这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
+
+  首先，server端和 client 端都做了处理工作。
+
+  1. webpack 在 watch 模式下，文件系统重的某一个文件发生修改，webpack 监听到文件变化，根据配置文件对模块进行重新编译打包，并将打包后的代码通过简单的 JS 对象保存在内存中。
+
+  2. webpack-dev-server 和 webpack 之间的接口交互：这一步主要是 dev-server 的中间件 webpack-dev-middleware 和 webpack 之间的交互，webpack-dev-middleware 调用 webpack 暴露的 API 对代码变化进行监控，并且告诉 webpack，将代码打包到内存中。
+
+  3. 当我们在配置⽂件中配置了 devServer.watchContentBase 为 true 的时候，webpack-dev-server 会监听 这些配置⽂件夹中静态⽂件的变化，变化后会通知浏览器端对应⽤进⾏ live reload。注意，这⼉是浏览器刷新，和 HMR 是两个概念。
+  
 ### module
   - NormalModule: 普通模块
   - ContextModule: ```'../src/xxx'```
