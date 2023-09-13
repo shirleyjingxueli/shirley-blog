@@ -61,6 +61,8 @@
     * 将 stats 统计数据传入并执行最初调用 run() 方法时所传入的 callback。
 
 ### webpack 热更新原理
+  ![Alt text](image/hmr.png)
+
   webpack的热更新又称为热替换，缩写为 HMR。这个机制可以做到不用刷新浏览器而将新变更的模块替换掉旧的模块。
 
   首先，server端和 client 端都做了处理工作。
@@ -69,8 +71,18 @@
 
   2. webpack-dev-server 和 webpack 之间的接口交互：这一步主要是 dev-server 的中间件 webpack-dev-middleware 和 webpack 之间的交互，webpack-dev-middleware 调用 webpack 暴露的 API 对代码变化进行监控，并且告诉 webpack，将代码打包到内存中。
 
-  3. 当我们在配置⽂件中配置了 devServer.watchContentBase 为 true 的时候，webpack-dev-server 会监听 这些配置⽂件夹中静态⽂件的变化，变化后会通知浏览器端对应⽤进⾏ live reload。注意，这⼉是浏览器刷新，和 HMR 是两个概念。
+  3. 当我们在配置⽂件中配置了 devServer.watchContentBase 为 true 的时候，webpack-dev-server 会监听这些配置⽂件夹中静态⽂件的变化，变化后会通知浏览器端对应⽤进⾏ live reload。注意，这⼉是浏览器刷新，和 HMR 是两个概念。
+
+  4. 通过 sockjs（webpack-dev-server的依赖）在浏览器和服务器之间建立一个 websocket 长连接，将 webpack 编译打包的各个阶段的状态信息告知浏览器端，同时也包括第三步中 server 监听静态文件变化的信息。浏览器根据这些 socket 消息进行不同的操作。当然服务端传递的最主要的信息还是新更新模块的 hash 值，后面的步骤根据这一 hash 值来进行模块热替换。
+
+    webpack-dev-server/client 端并不能够请求更新的代码，也不会执行热更模块操作，而把这些工作又交回给了 webpack，webpack/hot/dev-server 的工作就是根据 webpack-dev-server/client 传给它的信息以及 dev-server 的配置决定是刷新浏览器呢还是进行模块热更新。当然如果仅仅是刷新浏览器，也就没有后面的步骤了。
+
+    HotModuleReplacement.runtime 是客户端 HMR 的中枢，它接收到上一步传递给它的新模块的 hash 值， 它通过 JsonpMainTemplate.runtime 向 server 端发送 Ajax 请求，服务端返回一个 json，该 json 包含了所有要更新的模块的 hash 值，获取到更新列表之后，该模块再次通过 jsonp 请求，获取到最新的模块代码，这就是上图中的 7,8,9 步骤。
+
+    第 10 步是决定 HMR 成功与否的关键步骤，在该步骤中， HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用。
   
+  5. 最后一步，当 HMR 失败后，回退到 live reload 操作，也就是进行浏览器刷新来获取最新打包代码。
+
 ### module
   - NormalModule: 普通模块
   - ContextModule: ```'../src/xxx'```

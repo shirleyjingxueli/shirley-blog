@@ -407,9 +407,9 @@
 
 
 
-### webpack进阶
-#### 构建配置抽离成npm包
-#### 冒烟测试、单元测试、测试覆盖率
+## webpack进阶
+### 构建配置抽离成npm包
+### 冒烟测试、单元测试、测试覆盖率
 ### webpack进阶-构建速度和体积优化
 #### 速度、体积分析
   - 速度分析: speed-measure-webpack-plugin ---> 分析打包总耗时，以及每个loader，插件打包耗时
@@ -420,11 +420,15 @@
     * HappyPack
     * parallel-webpack
   - 并行压缩
-    * parallel-uglifytplugin 
+    * parallel-uglify-plugin 
     * uglifyjs-webpack-plugin 开启 parallel 参数
     * terser-webpack-plugin 开启 parallel 参数 
+#### 预编译模块
+  利用 DllPlugin 和 DllRefreencePlugin 预编译资源模块。通过 DllPlugin 来对那些我们引用但是绝对不会修改的 npm 包来进行预编译，再通过 DllReferencePlugin 将预编译的模块加载进来 
 #### 分包
   - 设置externals
+#### 提取公共代码
+  - 多入口情况下，通过 CommonChunkPlugin 来提取公共代码  
 #### 缓存
   - 目的：提升二次构建速度
   - 思路：
@@ -452,8 +456,42 @@
   - 动态polyfill: polyfill-service ----> 原理：识别userAgent，下发不同的polyfill
   
 ### 体积优化总结：
-  - Scope Hoisting
+  - 压缩代码：
+
+    删除多余的代码、注释、简化代码的写法等等方式。可以利用  webpack 的 UglifyJsPlugin 和 ParalleUglifyPlugin 来压缩 JS 文件，利用 cssnano(css-loader?minimize) 来压缩 css
+
+  - Scope Hosting
   - Tree-shaking 
+  - code splitting
   - 公共资源分离 
   - 图片压缩 
-  - 动态 Polyfill        
+  - 动态 Polyfill   
+
+
+## 名词解释
+### Scope Hosting
+  webpack 中的 scope Hosting 是 webpack 的一项优化功能，旨在减小打包文件的大小并提高性能。它主要通过分析模块之间的依赖关系并进行代码优化来实现这一目标。
+
+  Scope Hosting 的原理是将具有相同作用域（Scope）的模块合并到一个函数中，从而减少函数声明的树龄。这种优化在支持 ES6 模块的现代浏览器和 JavaScript 引擎中特别有效。
+
+  **Scope Hosting 的优势**
+
+  - 减小打包文件的大小：通过减少函数声明的数量，可以减小打包后 JavaScript 文件的大小
+  - 提高性能：减少函数声明也意味着减少了函数调用和上下文切换，从而提高了代码的执行性能。
+  - 改善可读性：合并具有相同作用域的模块可以改善代码的可读性，因为它们在同一个函数中，更容易理解和维护。
+
+  **启用 Scope Hosting**
+
+  要启用 Scope Hosting，通常需要确保你的 webpack 配置采用了支持此功能的最新版本，并且你的代码符合相应的要求。此外，还可以使用 webpack 插件和工具来进一步优化代码。
+
+  在 webpack 5 中，Scope Hosting 是默认开启的，但也可以通过配置文件进行自定义。
+
+  **可以使用 `optimization.concatenateModules` 选项来配置 Scope Hosting 相关的参数**
+
+  ```js
+    module.exports = {
+      optimization: {
+        concatenateModules: true.
+      }
+    }
+  ```

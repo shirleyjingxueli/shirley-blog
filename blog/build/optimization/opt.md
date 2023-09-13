@@ -24,7 +24,9 @@
   - css: purify css | uncss
 #### 使用DeadCodePlugin
 #### 动态polyfill
+#### 利用 CDN 加速
 
+  在构建过程中，将引用的静态资源路径修改为 CDN 上对应的地址。可以利用 webpack 对于 output 参数和各 loader 的 publicPath 来修改资源路径。
 
 
 ### 二. 资源存放
