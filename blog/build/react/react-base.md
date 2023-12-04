@@ -155,3 +155,28 @@ In react a component is a javascript function that return jsx.
   - to resolve some complex problems like pass values
   - to resolve the problem that it is difficult to retain components with components become more complex
   - in order to pre-compiler component and class will influence performance optimization
+
+### the diffrence between useCallback and useMemo
+#### same
+#### difference
+  1. useCallback is used to cache a function, useMemo is used to cache a calculated value
+
+### how to use debounce and throttle in react
+```jsx
+  const debounceHandleInputChange = useCallback(
+    debounce((value) => {
+      console.log("处理用户输入：", value);
+    }, 2000),
+    []
+  );
+
+  const throttleHandleInputChange = useCallback(
+    throttle((value) => {
+      console.log("处理用户输入：", value)
+    },2000)
+  )
+```
+
+### how to pass content to subComponent(like vue slot)?
+1. as a props
+2. get data by props.children

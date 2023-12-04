@@ -78,6 +78,85 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'blog-algorithm',
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
+        routeBasePath: 'algorithm',
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: './algorithm',
+        editLocalizedFiles: false,
+        blogTitle: 'Blog title',
+        blogDescription: 'Blog',
+        blogSidebarCount: 'ALL',
+        blogSidebarTitle: 'All our posts',
+        include: ['**/*.{md,mdx}'],
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
+        postsPerPage: 10,
+        blogListComponent: '@theme/BlogListPage',
+        blogPostComponent: '@theme/BlogPostPage',
+        blogTagsListComponent: '@theme/BlogTagsListPage',
+        blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+        remarkPlugins: [],
+        rehypePlugins: [],
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
+        truncateMarker: /<!--\s*(truncate)\s*-->/,
+        showReadingTime: true,
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'blog-interview',
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
+        routeBasePath: 'interview',
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: './interview',
+        editLocalizedFiles: false,
+        blogTitle: 'Blog title',
+        blogDescription: 'Blog',
+        blogSidebarCount: 'ALL',
+        blogSidebarTitle: 'All our posts',
+        include: ['**/*.{md,mdx}'],
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
+        postsPerPage: 10,
+        blogListComponent: '@theme/BlogListPage',
+        blogPostComponent: '@theme/BlogPostPage',
+        blogTagsListComponent: '@theme/BlogTagsListPage',
+        blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+        remarkPlugins: [],
+        rehypePlugins: [],
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
+        truncateMarker: /<!--\s*(truncate)\s*-->/,
+        showReadingTime: true,
+      },
+    ],
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -100,6 +179,16 @@ const config = {
             to: '/blog', 
             label: 'Blog',
             position: 'left'
+          },
+          {
+            to: '/algorithm',
+            label: 'Algorithm',
+            position: 'left',
+          },
+          {
+            to: '/interview',
+            label: 'Interview',
+            position: 'left',
           },
           {
             href: 'https://github.com/shirleyjingxueli/shirley-blog',

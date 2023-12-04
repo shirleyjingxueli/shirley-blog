@@ -38,5 +38,69 @@
   5. **事件冒泡/捕获：**
 
   window.onerror：不支持事件冒泡或捕获，它仅用于捕获全局 JavaScript 错误。
-  
+
   window.addEventListener：支持事件冒泡和捕获，可以在不同阶段捕获事件，如捕获阶段和冒泡阶段。
+
+## Math
+### Math.pow(base, exponent)
+
+  返回基数（base）的指数（exponent）次幂，即 base^exponent
+
+  ```Math.pow(10,4)``` 求10^4的值
+
+### Math.max()
+  返回作为输入参数的最大数字，如果没有参数，则返回 ```-Infinity```
+
+  ```Math.max(1,2,3)```
+
+### Math.min()
+
+  返回作为输入参数的数字中最小的一个，如果没有参数，则返回 ```Infinity```
+  
+  ```Math.min(1,2,3)```
+
+## Object.is()
+### 特性
+  - Object.is() 与 == 运算符不等价。**不会对两个值进行类型转换**
+  - Object.is() 与 === 运算符不等价。**在处理带符号的 0 和 NaN时不同。=== 或者（==）运算符会将 ```-0 和 +0 视为相等，会将 NaN视为不相等。```**
+
+### Object.is() 判断两个值相同的场景
+  - 都是 undefined
+  - 都是 null
+  - 都是 true 或者 都是 false
+  - 都是长度相同、字符相同、顺序相同的字符串
+  - 都是相同的对象（两个值都引用内存中的同一对象）
+  - 都是 BigInt 且具有相同的数值
+  - 都是 symbol 且引用相同的 symbol 值
+  - 都是数字且
+    - 都是 +0
+    - 都是 -0
+    - 都是 NaN
+    - 都是相同的值，非零且都不是 NaN
+
+### 例子
+```js
+    // 案例 1：评估结果和使用 === 相同
+    Object.is(25, 25); // true
+    Object.is("foo", "foo"); // true
+    Object.is("foo", "bar"); // false
+    Object.is(null, null); // true
+    Object.is(undefined, undefined); // true
+    Object.is(window, window); // true
+    Object.is([], []); // false
+    const foo = { a: 1 };
+    const bar = { a: 1 };
+    const sameFoo = foo;
+    Object.is(foo, foo); // true
+    Object.is(foo, bar); // false
+    Object.is(foo, sameFoo); // true
+
+    // 案例 2: 带符号的 0
+    Object.is(0, -0); // false
+    Object.is(+0, -0); // false
+    Object.is(-0, -0); // true
+
+    // 案例 3: NaN
+    Object.is(NaN, 0 / 0); // true
+    Object.is(NaN, Number.NaN); // true
+```

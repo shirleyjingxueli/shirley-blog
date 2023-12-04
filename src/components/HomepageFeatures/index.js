@@ -14,6 +14,26 @@ const FeatureList = [
       </>
     ),
   },
+  {
+    title: 'Algorithm',
+    to: '/algorithm',
+    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    description: (
+      <>
+       Some Algorithm
+      </>
+    ),
+  },
+  {
+    title: 'Interview',
+    to: '/interview',
+    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    description: (
+      <>
+       Interview Question
+      </>
+    ),
+  },
 ];
 
 function Feature({Svg, title, description,to}) {

@@ -161,7 +161,7 @@
     * ContentHash
       1. 使用场景：css设置hash
     * ChunkHash 
-      1. 使用场景：js摄者hash   
+      1. 使用场景：js设置hash   
   - **资源模块**
     * asset/resource: file-loader --> 发送一个单独的文件并且导出url
     * asset/inline: url-loader --> 导出一个资源的dataURI
