@@ -93,11 +93,11 @@
   * extends: 拓展独立的逻辑；和mixin区别：mixin是数组形式传入，extends传入方式：extends: extendsDemo
   * 整体拓展：extend => 从预定义的配置中拓展出来一个独立的配置，进行合并
   * 插件
-    a.注册外部插件，作为整体实例的补充
-    b.会除值，不会重复注册
-    c.手写插件
-      i. 外部调用使用vue.use(pluginnanme,options)
-      ii. 内部封装install方法
+    * 注册外部插件，作为整体实例的补充
+    * 会除值，不会重复注册
+    * 手写插件
+      * 外部调用使用vue.use(pluginnanme,options)
+      * 内部封装install方法
 
 ### 组件的高级引用
   * 递归组件：自身调用，实现无限嵌套
@@ -118,7 +118,7 @@
   * 使用webpack动态导入
     const {default: component} = await import('xxx.vue');
   * chunk分包
-    a. webpack配置项
+    1. webpack配置项
       ```
         module.exports = {
           entry: 'xxx.js',
@@ -128,7 +128,7 @@
           }
         }
       ```
-    b. require.ensure()
+    2. require.ensure()
       ```
       const Home = resolve => require.ensure('./views/Home.vue'), () => {
         resolve(require('./views/Home.vue'))
@@ -236,7 +236,6 @@
     </script>
 
   ```
-### vue2和vue3的区别
 
 ### vue中单页应用和多页应用的区别
 #### 概念：

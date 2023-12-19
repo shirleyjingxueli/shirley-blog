@@ -10,11 +10,11 @@
 ## 错误类型
 ### JS 错误
   - **Error**: 基类，其他的错误类型继承该类型。浏览器很少抛出 Error 类型的错误，该类型主要用于开发者抛出自定义错误。
-  - **InternalError**: 底层 JavaScript 引擎抛出异常时浏览器抛出。比如：递归多多导致了栈溢出。
+  - **InternalError**: 底层 JavaScript 引擎抛出异常时浏览器抛出。比如：递归多导致了栈溢出。
   - **EvalError**: 使用 eval() 函数发生异常时抛出。基本上，只要不把 eval() 当成函数调用就会报告该错误。
   - **RangeError**: 在数值越界时抛出。
   - **ReferenceError**: 会在找不到对象时抛出。
-  - **SyntaxError**: 疆场在给 eval() 传入的字符串包含 JavaScript 语法错误时发生。
+  - **SyntaxError**: 在给 eval() 传入的字符串包含 JavaScript 语法错误时发生。
   - **TypeError**: 主要发生在变量不是预期类型，或者访问不存在的方法时抛出。
   - **URIError**: 在使用 encodeURI 或者 decodeURI() 时传入了格式错误的 URI。
 
@@ -26,7 +26,7 @@
 
 ### 跨域脚本执行异常
 
-### 捕获错误和跑出错误的却别
+### 捕获错误和抛出错误的区别
   应该旨在确切知道接下来该做什么的时候捕获错误。
 
   捕获错误的目的是阻止浏览器以其默认方式响应；抛出错误的目的是为错误提供有关其发生原因的说明。
@@ -218,7 +218,7 @@
   ```
 
 ### 网页崩溃或者卡顿
-  1. 利用 window 对象的 load 和 beforeunload 事件实现对网页蹦会的监控
+  1. 利用 window 对象的 load 和 beforeunload 事件实现对网页崩溃的监控
 
   ```js
     window.addEventListener('load', function () {
@@ -439,3 +439,10 @@
 ## 参考文献
 1. [SourceMap 与前端异常监控](https://mp.weixin.qq.com/s/BbvJ-OfcS7Sa-e0Zq6iF1w)
 2. [Sentry 捕获异常原理](https://www.51cto.com/article/740742.html)
+
+## 技术选型需要考虑什么问题
+## nuxt在项目中是怎么使用的
+## lerna在项目中是怎么使用的
+## 为什么选择uniapp
+## CICD主要做了哪些工作
+## 项目分支管理

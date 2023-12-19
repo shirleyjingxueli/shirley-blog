@@ -28,34 +28,35 @@
 
 ## vue-router 
 ### 什么是vue-router,router的发展历程
-    router是vue的一个路由管理，是基于spa的产物,spa之前都是由服务端来控制的；只有一个html，前端可以控制路由
+  router是vue的一个路由管理，是基于spa的产物,spa之前都是由服务端来控制的；只有一个html，前端可以控制路由
 
-    通过监听hash，go,back,foward等行为来控制路由
+  通过监听hash，go,back,foward等行为来控制路由
 
-    后端路由是通过url访问对应的controller，进行数据和模版引擎的拼接，返回给前端
+  后端路由是通过url访问对应的controller，进行数据和模版引擎的拼接，返回给前端
 
-    前端路由是通过js根据url加载对应的组件
+  前端路由是通过js根据url加载对应的组件
 
-    所以前端路由包括两部分：处理url， 加载对应的组件
+  所以前端路由包括两部分：处理url， 加载对应的组件
 
 ### 路由有哪几种
-    hash route; history route(go | back | forward | push | replace ); memory 路由；
-  * hash route 和 history route的区别
-    * hash 路由 ⼀般会携带 ⼀个 # 号，不够美观； history 路由不存在这个问题； 
-    * 默认 hash 路由是不会像浏览器发出请求的，主要是⼀般⽤于锚点；history 中 go / back / forward 以及浏览器的前进、后退按钮⼀般都会像服务端发起请求；-- history 的所有 url 内容，服 务端都可以获取到 
-    * 基于此，hash 模式，是不⽀持SSR的，但是 history 模式可以做 SSR 
-    * history 在部署的时候，如 nginx， 需要只渲染⾸⻚，让⾸⻚根据路径重新跳转。
-    ```
-      # 单个的服务器部署
-      location / {
-        try_files uri $uri /xxx/main/index.html
-      }
-      # 存在代理的情况
-      location / {
-        rewrite ^ /file/index.html break; # 这⾥代表的是xxx.cdn 的资源路径
-        proxy_pass https://www.xxx.cdn.com;
-      } 
-    ```
+  hash route; history route(go | back | forward | push | replace ); memory 路由；
+
+#### hash route 和 history route的区别
+  * hash 路由 ⼀般会携带 ⼀个 # 号，不够美观； history 路由不存在这个问题； 
+  * 默认 hash 路由是不会像浏览器发出请求的，主要是⼀般⽤于锚点；history 中 go / back / forward 以及浏览器的前进、后退按钮⼀般都会像服务端发起请求；history 的所有 url 内容，服 务端都可以获取到 
+  * 基于此，hash 模式，是不⽀持SSR的，但是 history 模式可以做 SSR 
+  * history 在部署的时候，如 nginx， 需要只渲染⾸⻚，让⾸⻚根据路径重新跳转。
+  ```
+    # 单个的服务器部署
+    location / {
+      try_files uri $uri /xxx/main/index.html
+    }
+    # 存在代理的情况
+    location / {
+      rewrite ^ /file/index.html break; # 这⾥代表的是xxx.cdn 的资源路径
+      proxy_pass https://www.xxx.cdn.com;
+    } 
+  ```
 
 ### 异步组件
   通过import(); react.lazy() 对代码进行动态拆分的技术, 等需要时再进行加载
@@ -79,11 +80,11 @@
   - 调用 beforeRouteEnter 守卫中传给 next 的回调函数，创建好的组件实例会作为回调函数的参数传入。
 
 ### vue router实现原理
-  a. createWebHistory()
+1. createWebHistory()
   - 包含当前路径 ====> 根据location.path, search, hash 进行拼接
   - 状态 ====> 通过window.location.state来获取浏览器的状态
-    i 有时候是无状态的，需要维护一个自己的状态 buildstate (比如 go, forward, push, replace, 第一次刷新界面时)
-    iii 同步状态给location 和historystate
+    1. 有时候是无状态的，需要维护一个自己的状态 buildstate (比如 go, forward, push, replace, 第一次刷新界面时)
+    2. 同步状态给location 和historystate
     ```
       function changeLocation(to, state, replace) {
         window.history[replace?'replace':'pushState'](state, null, to);
@@ -94,31 +95,38 @@
   - 监听器，监听popstate，执行listener，listener里面存储的是state的信息{to,from,isBack}
 
 ## vue-cli  
-  cli工具地址：
-    - https://github.com/sindresorhus/ora
-    - https://github.com/tj/commander.js
-    - https://www.npmjs.com/package/inquirer
+### cli工具地址：
+  - https://github.com/sindresorhus/ora
+  - https://github.com/tj/commander.js
+  - https://www.npmjs.com/package/inquirer
 
-  download-git-repo: 下载模版
-  commander: 命令行工具
-  path: mode模块
-  ora: node模块-node的命令行界面增强工具，可以在命令行中增加提示，只依赖于node.js中的process模块
-  chalk: node.js 中的一个模块，用于在控制台输出彩色的文字，提升文本可读性    
-  inquirer: 命令行与开发者交流工具
+  1. download-git-repo: 下载模版
+  2. commander: 命令行工具
+  3. path: mode模块
+  4. ora: node模块-node的命令行界面增强工具，可以在命令行中增加提示，只依赖于node.js中的process模块
+  5. chalk: node.js 中的一个模块，用于在控制台输出彩色的文字，提升文本可读性    
+  6. inquirer: 命令行与开发者交流工具
 
-  * vue-cli 是用来做什么的
-    用于快速搭建一个项目
-    下载模版, metadata配置，渲染生成
-    利用download-git-repo下载模版，利用commader构建命令行工具，inquirer构建可交互的命令行界面，ora增加提示
-    根据git config --get user.name, git config --get user.email 获取用户的git名称以及邮件
-    核心逻辑：
-      a. 判断是local-template 或者是remote-template
-      b. 如果是local-template, 判断项目目录，如果存在 => 构建项目
-      c. 如果是remote-template, 检查版本号 => 是否是官方模版（加载官方或者第三方模版）=> 构建项目
-      d. 生成过程
-         -- 获取模版配置
-         -- 初始化metalsmith
-         -- 模版的注册 => before执行 => 问询 & 主流程 => after执行 => complete => 打印message
+### vue-cli 是用来做什么的
+  用于快速搭建一个项目
+
+  下载模版, metadata配置，渲染生成
+
+  利用download-git-repo下载模版，利用commander构建命令行工具，inquirer构建可交互的命令行界面，ora增加提示
+
+  根据git config --get user.name, git config --get user.email 获取用户的git名称以及邮件
+
+  核心逻辑：
+  1. 判断是local-template 或者是remote-template
+  2. 如果是local-template, 判断项目目录，如果存在 => 构建项目
+  3. 如果是remote-template, 检查版本号 => 是否是官方模版（加载官方或者第三方模版）=> 构建项目
+  4. 生成过程
+
+      -- 获取模版配置
+
+      -- 初始化metalsmith
+
+      -- 模版的注册 => before执行 => 问询 & 主流程 => after执行 => complete => 打印message
 
 ## vuex
 ### vuex 有哪几种属性
@@ -176,22 +184,22 @@
 ### vue2的响应式原理
   * proxy(): 实现this.$data.message => this.message
   * observer();
-    a. 调用walk函数遍历data
-    b. 利用Object.defineProperty(obj, key, {})对属性拦截
-      i.在get时调用dep.add(Dep.target)添加依赖
-      ii.在set时调用dep.notify()来更新视图 => 调用watcher.update();
-    c. Dep类存储的是一个watcherList
-    d. Watcher类: 用来监听数据的变化，更新视图 new Watcher(vm, 'num', () => {更新视图})
+    1. 调用walk函数遍历data
+    2. 利用Object.defineProperty(obj, key, {})对属性拦截
+      * 在get时调用dep.add(Dep.target)添加依赖
+      * 在set时调用dep.notify()来更新视图 => 调用watcher.update();
+    3. Dep类存储的是一个watcherList
+    4. Watcher类: 用来监听数据的变化，更新视图 new Watcher(vm, 'num', () => {更新视图})
        设置Dep.target = Watcher, 设置update方法用来更新函数，并且触发 getter 函数，把依赖添加进去（因为Watcher 里面有 this.__old = vm[key], 这句话会触发 getter 函数）
   * complier(): 对模版的编译，创建watcher实例
 
 ### vue3的响应式原理
   * 全局的targetMap, activeEffect
   * reactive(), ref();
-    a. 利用proxy实现代理, reactive => get(), set(), has(), ownKeys(), deleteProperty(); ref() => get value(), set value(),挂载在value上
-    b. get操作时进行track, set时进行trigger
-    c. track => 调用dep.add(activeEffect),依赖项实际上为ReactiveEffect; trigger => 遍历deps并执行effect.run()
-    d. ReactiveEffect(fn): 设置全局activeEffect(实际上为ReactiveEffect实例)，具有一个run方法，用来执行传入进来的fn
+    1. 利用proxy实现代理, reactive => get(), set(), has(), ownKeys(), deleteProperty(); ref() => get value(), set value(),挂载在value上
+    2. get操作时进行track, set时进行trigger
+    3. track => 调用dep.add(activeEffect),依赖项实际上为ReactiveEffect; trigger => 遍历deps并执行effect.run()
+    4. ReactiveEffect(fn): 设置全局activeEffect(实际上为ReactiveEffect实例)，具有一个run方法，用来执行传入进来的fn
   * mount(): 获取setup上导出的data，实例化 ReactiveEffect(),调用instance.render()方法把页面渲染出来
 
 ### 总结-双向数据绑定原理
@@ -199,9 +207,9 @@
 
   主要步骤为：
 
-  1. 需要 observe 对数据对象进行递归遍历，包括子属性对象的属性，都加上 getter 和 setter， 这样给对象的某个值赋值，就会触发 setter， 就能监听到数据的变化
+  1. 需要 observer 对数据对象进行递归遍历，包括子属性对象的属性，都加上 getter 和 setter， 这样给对象的某个值赋值，就会触发 setter， 就能监听到数据的变化
 
-  2. compile 解析模版指令，将模版中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据又变化，收到通知，更新视图。
+  2. compile 解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变化，收到通知，更新视图。
 
   3. Watcher 订阅者是 Observer 和 compile 之间通信的桥梁，主要做的事情是：
 
