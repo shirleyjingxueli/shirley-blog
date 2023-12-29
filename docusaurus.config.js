@@ -155,6 +155,44 @@ const config = {
         showReadingTime: true,
       },
     ],
+    [
+      '@docusaurus/plugin-content-blog',
+      {
+        id: 'blog-otherTech',
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
+        routeBasePath: 'otherTech',
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: './otherTech',
+        editLocalizedFiles: false,
+        blogTitle: 'Blog title',
+        blogDescription: 'Blog',
+        blogSidebarCount: 'ALL',
+        blogSidebarTitle: 'All our posts',
+        include: ['**/*.{md,mdx}'],
+        exclude: [
+          '**/_*.{js,jsx,ts,tsx,md,mdx}',
+          '**/_*/**',
+          '**/*.test.{js,jsx,ts,tsx}',
+          '**/__tests__/**',
+        ],
+        postsPerPage: 10,
+        blogListComponent: '@theme/BlogListPage',
+        blogPostComponent: '@theme/BlogPostPage',
+        blogTagsListComponent: '@theme/BlogTagsListPage',
+        blogTagsPostsComponent: '@theme/BlogTagsPostsPage',
+        remarkPlugins: [],
+        rehypePlugins: [],
+        beforeDefaultRemarkPlugins: [],
+        beforeDefaultRehypePlugins: [],
+        truncateMarker: /<!--\s*(truncate)\s*-->/,
+        showReadingTime: true,
+      },
+    ],
   ],
 
   themeConfig:
@@ -183,6 +221,11 @@ const config = {
           {
             to: '/algorithm',
             label: 'Algorithm',
+            position: 'left',
+          },
+          {
+            to: '/otherTech',
+            label: 'OtherTech',
             position: 'left',
           },
           {
