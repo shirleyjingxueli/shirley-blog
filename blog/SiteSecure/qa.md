@@ -6,6 +6,13 @@
   - 跨站请求伪造
   - 恶意的第三方库：开发中会使用很多第三方库，如果第三方库中存在不安全的代码，则会十分不安全。
 
+### 如何预防恶意的 Iframe 嵌入
+  - 使用 X-Frame-Options HTTP 响应头
+    * DENY: 完全禁止 iframe 嵌入
+    * SAMEORIGIN：仅允许来自同一域名下的页面嵌入为 iframe
+    * ALLOW-FROM uri: 指定一个可以嵌入为 iframe 的页面的 URI
+  - 使用 CSP 
+    * 在 CSP 中指定 frame-ancestors 来控制哪些网站可以将你的页面嵌入为 iframe    
 ### 网络劫持分为哪几种？怎么预防？
 #### 网络劫持有哪些？
   - DNS 劫持：（输入京东被强制跳转到淘宝）

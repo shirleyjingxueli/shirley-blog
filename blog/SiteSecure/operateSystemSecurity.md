@@ -5,7 +5,7 @@
 ## 多进程架构
   现代浏览器设计的目标是安全、快速和稳定。
 
-  ![Alt text](multiProcess.png)  
+  ![Alt text](./image/multiProcess.png)  
 
   浏览器被划分为浏览器内核和渲染内核两个核心模块，其中浏览器内核是由网络进程、浏览器主进程和 GPU 进程组成的，渲染内核就是渲染进程。
 
