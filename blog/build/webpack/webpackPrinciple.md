@@ -106,7 +106,7 @@
     * 加载方式：编译时确定模块之间的依赖关系，同步和异步都有
     * 运行环境： node，浏览器
     ```js
-      import mport * as largeNumber from 'large-number';
+      import * as largeNumber from 'large-number';
       // ... largeNumber.add('999', '1'); 
     ```
   - **commonjs**
