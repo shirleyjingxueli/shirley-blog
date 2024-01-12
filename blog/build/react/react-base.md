@@ -52,7 +52,7 @@ In react a component is a javascript function that return jsx.
 
 ### interactivity
   #### event handler --> state change --> render and commit --> browser paint
-  ![Alt text](react-render.png)
+  ![Alt text](./image/react-render.png)
 
   * **event handler**
     * handle user interaction
@@ -115,7 +115,7 @@ In react a component is a javascript function that return jsx.
     * original javascript event
 
 ## hooks
- ![Alt text](react-hooks.png) 
+ ![Alt text](./image/react-hooks.png) 
   - feature:
     * only available when react in rendering
     * only can be used at top level of the component or your own hooks

@@ -34,7 +34,7 @@
   
     * 顶级域名服务器(.com) --- com,cn
 
-    * 权威域名服务器(server.com) --- goole.cn, server.com
+    * 权威域名服务器(server.com) --- google.cn, server.com
     
   - **域名解析的流程**
     * 客户端发送 DNS 请求查询 IP ，并发送给本地 DNS 服务器

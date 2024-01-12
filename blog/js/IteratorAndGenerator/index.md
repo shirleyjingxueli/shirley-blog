@@ -130,10 +130,6 @@
     // 1 
     // 2 
     // 3 
-    for (let i of counter) { console.log(i); } 
-    // 1 
-    // 2 
-    // 3
   ```      
 
 ## 生成器
@@ -155,8 +151,8 @@
   yield关键字可以让生成器停止和开始执行。生成器函数在遇到 yield 关键字之前正常执行。 遇到这个关键字之后，执行会停止，函数作用域的状态会被保留。停止执行的生成器函数只能通过在生成器对象上调用 next() 方法来恢复执行。
 
 #### 特性
-  - 通过 yield 关键字退成的生成器会停留在 done:false 状态；通过return关键字退出的生成器会函数会处于 done:true状态。
-  - 生成器函数内部的执行流程会针对每个生成器对象区分作用域。在一个生成器上调用next()并不会影响其他生成器。
+  - 通过 yield 关键字退出的生成器会停留在 done:false 状态；通过return关键字退出的生成器会函数会处于 done:true 状态。
+  - 生成器函数内部的执行流程会针对每个生成器对象区分作用域。在一个生成器上调用 next() 并不会影响其他生成器。
   - yield 关键字只能在生成器内部使用，用在其他地方会抛出错误。
 
 ### 生成器的使用
@@ -193,7 +189,7 @@
   // } 
   // } 
   function* generatorFn() { 
-  yield* [1, 2, 3]; 
+    yield* [1, 2, 3]; 
   } 
   let generatorObject = generatorFn(); 
   for (const x of generatorFn()) { 
@@ -211,13 +207,13 @@
       yield* nTimes(n - 1); 
       yield n - 1; 
     } 
-    } 
-    for (const x of nTimes(3)) { 
-      console.log(x); 
-    } 
-    // 0 
-    // 1 
-    // 2
+  } 
+  for (const x of nTimes(3)) { 
+    console.log(x); 
+  } 
+  // 0 
+  // 1 
+  // 2
 ```
 ## 小结
   迭代器是一个可以由任意对象实现的接口，支持连续获取对象产出的每一个值。任何实现 Iterable接口的对象都有一个 Symbol.iterator 属性，这个属性引用默认迭代器。默认迭代器就像一个迭代器工厂，也就是一个函数，调用之后会产生一个实现 Iterator 接口的对象。

@@ -313,7 +313,7 @@
     // 重点逻辑
     function inheritProperty(subType, superType) {
       // 创建对象
-      let prototype = object(superType.protype);
+      let prototype = object(superType.prototype);
       // 增强对象
       prototype.constructor = subType;
       // 赋值对象
@@ -466,7 +466,9 @@
       new Vehicle(); // Vehicle can not be directly instantiated
     ```
   4. 继承内置类型
+
   ES6 类为继承内置引用类型提供了顺畅的机制，开发者可以方便地扩展内置类型。
+
   ```js
     // 实现一个继承Array的类
     class SuperArray extends Array { 
@@ -489,6 +491,7 @@
   ```  
 
   有些内置类型的方法会返回新实例。默认情况下，返回实例的类型与原始实例的类型是一致的：
+
   ```js
     class SuperArray extends Array {} 
 
@@ -502,6 +505,7 @@
   ```
 
   如果想覆盖这个默认行为，则可以覆盖 Symbol.species 访问器，这个访问器决定在创建返回的实例时使用的类：
+
   ```js
     class SuperArray extends Array { 
       // 重点
@@ -518,7 +522,9 @@
     console.log(a1 instanceof SuperArray); // true 
     console.log(a2 instanceof SuperArray); // false
   ```
+
   5. 类混入
+
   在javascript中，把多个类集中到一个类叫做类混入。虽然 ES6 没有显式支持多类继承，但通过现有特性可以轻松地模拟这种行为。
 
   - 单个混入：
@@ -535,6 +541,7 @@
   - 嵌套混入模式：
 
   i. 一个策略是定义一组“可嵌套”的函数，每个函数分别接收一个超类作为参数，而将混入类定义为这个参数的子类，并返回这个类。这些组合函数可以连缀调用，最终组合成超类表达式：
+
   ```js
     class Vehicle {} 
 
@@ -563,7 +570,9 @@
     b.bar(); // bar 
     b.baz(); // baz
   ```
+
   ii. 定义一个辅助函数，可以把嵌套函数打开
+  
   ```js
     class Vehicle {} 
 

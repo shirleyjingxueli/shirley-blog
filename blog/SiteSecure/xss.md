@@ -13,7 +13,7 @@
   - 基于DOM的xss攻击
 
 ### 存储型xss攻击
-  ![Alt text](xss.png)
+  ![Alt text](./image/xss.png)
   
   存储型 xss 攻击步骤：
   - 黑客利用网站漏洞将恶意脚本提交到网站的数据库中

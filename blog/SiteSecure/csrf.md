@@ -49,9 +49,10 @@
 
 ## 避免 CSRF 攻击的方式
 ### 充分利用好 Cookie 的 SameSite 属性
-  因为黑客会利用用户的登录状态来发起 CSRF 攻击，**而 Cookie 正是浏览器和服务器之间维护登录状态的一个关键数据**，所以先考虑从 Cookie做文章
+  因为黑客会利用用户的登录状态来发起 CSRF 攻击，**而 Cookie 正是浏览器和服务器之间维护登录状态的一个关键数据**，所以先考虑从 Cookie 做文章
 
   * Secure 属性
+  
     标记为 Secure 的 Cookie 只应通过被 HTTPS 协议加密过的请求发送给服务端。它永远不会使用不安全的 HTTP 发送（本地主机除外），这意味着中间人攻击者无法轻松访问它。不安全的站点（在 url 中带有 http：）无法使用 Secure 属性设置 cookie。
 
   * 使用 SameSite: Strict | Lax (默认值) | None;
